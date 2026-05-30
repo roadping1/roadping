@@ -1,4 +1,6 @@
- #  RoadPing : Privacy Policy 
+<img width="125" height="125" alt="logo" src="https://github.com/user-attachments/assets/90c0c57d-2427-4d47-9590-aa3a3bd7433c" />
+ 
+ # Privacy Policy 
 
  **Last Updated:** May 30, 2026
 
