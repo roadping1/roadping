@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RoadPing — You Report. We Alert.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080c0f;
+  --surface: #0d1317;
+  --card: #111820;
+  --border: rgba(255,120,30,0.15);
+  --orange: #ff7a1e;
+  --orange-dim: rgba(255,122,30,0.15);
+  --orange-glow: rgba(255,122,30,0.4);
+  --green: #00e5a0;
+  --green-dim: rgba(0,229,160,0.12);
+  --red: #ff4545;
+  --text: #e8ecef;
+  --muted: #7a8a95;
+  --faint: rgba(255,255,255,0.04);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top:0; left:0; right:0;
+  z-index: 100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 18px 48px;
+  background: linear-gradient(to bottom, rgba(8,12,15,0.95), transparent);
+  backdrop-filter: blur(8px);
+}
+.nav-logo {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+}
+.nav-logo-icon {
+  width:36px;height:36px;
+  background: var(--orange);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;
+  color:#000;
+  letter-spacing:0;
+}
+.nav-logo-text {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:2px;
+  color:var(--text);
+}
+.nav-links {
+  display:flex;gap:32px;list-style:none;
+}
+.nav-links a {
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  transition:color 0.2s;
+}
+.nav-links a:hover { color:var(--orange); }
+.nav-cta {
+  background: var(--orange);
+  color:#000 !important;
+  padding:8px 18px;
+  border-radius:6px;
+  font-weight:600 !important;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover { background:#ff9340 !important; color:#000 !important; transform:translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding: 0 24px;
+}
+
+/* Road SVG background */
+.road-bg {
+  position:absolute;
+  inset:0;
+  opacity:0.18;
+}
+
+/* Radar rings */
+.radar-container {
+  position:absolute;
+  bottom:-120px;
+  left:50%;
+  transform:translateX(-50%);
+  width:900px;
+  height:900px;
+  pointer-events:none;
+}
+.radar-ring {
+  position:absolute;
+  border-radius:50%;
+  border:1px solid var(--orange);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  animation: radarPulse 3.6s ease-out infinite;
+}
+.radar-ring:nth-child(1){width:200px;height:200px;animation-delay:0s;}
+.radar-ring:nth-child(2){width:400px;height:400px;animation-delay:0.6s;}
+.radar-ring:nth-child(3){width:600px;height:600px;animation-delay:1.2s;}
+.radar-ring:nth-child(4){width:800px;height:800px;animation-delay:1.8s;}
+
+@keyframes radarPulse {
+  0%   { transform:translate(-50%,-50%) scale(0.2); opacity:0.8; }
+  100% { transform:translate(-50%,-50%) scale(1);   opacity:0; }
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:860px;
+}
+
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background: var(--orange-dim);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:6px 16px;
+  font-size:12px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--orange);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:32px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-badge::before {
+  content:'';
+  width:7px;height:7px;
+  background:var(--orange);
+  border-radius:50%;
+  animation: blink 1.2s ease infinite;
+}
+@keyframes blink {
+  0%,100%{opacity:1} 50%{opacity:0.2}
+}
+
+.hero-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size: clamp(72px, 12vw, 140px);
+  line-height:0.9;
+  letter-spacing:4px;
+  color:var(--text);
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero-title span {
+  color:var(--orange);
+  display:block;
+}
+
+.hero-tagline {
+  font-size: clamp(15px, 2vw, 19px);
+  color:var(--muted);
+  margin-top:24px;
+  font-weight:300;
+  line-height:1.6;
+  max-width:580px;
+  margin-left:auto;
+  margin-right:auto;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-actions {
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  margin-top:40px;
+  flex-wrap:wrap;
+  animation: fadeUp 0.8s 0.45s ease both;
+}
+
+.btn-primary {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background: var(--orange);
+  color:#000;
+  font-weight:600;
+  font-size:15px;
+  padding:14px 28px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:all 0.2s;
+  letter-spacing:0.3px;
+}
+.btn-primary:hover { background:#ff9340; transform:translateY(-2px); box-shadow:0 12px 40px var(--orange-glow); }
+
+.btn-secondary {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background: transparent;
+  color:var(--text);
+  font-weight:500;
+  font-size:15px;
+  padding:14px 28px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.15);
+  text-decoration:none;
+  transition:all 0.2s;
+}
+.btn-secondary:hover { border-color:var(--orange); color:var(--orange); }
+
+.hero-stats {
+  display:flex;
+  gap:48px;
+  justify-content:center;
+  margin-top:64px;
+  animation: fadeUp 0.8s 0.6s ease both;
+}
+.stat {
+  text-align:center;
+}
+.stat-number {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:40px;
+  color:var(--orange);
+  letter-spacing:2px;
+  line-height:1;
+}
+.stat-label {
+  font-size:12px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-top:4px;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  animation: fadeUp 1s 1s ease both;
+}
+.scroll-line {
+  width:1px;
+  height:40px;
+  background: linear-gradient(to bottom, var(--orange), transparent);
+  animation: scrollPulse 1.5s ease infinite;
+}
+@keyframes scrollPulse {
+  0%,100%{transform:scaleY(1);opacity:0.6}
+  50%{transform:scaleY(0.5);opacity:1}
+}
+
+/* ── SECTION COMMONS ── */
+section {
+  position:relative;
+  z-index:1;
+  padding: 100px 48px;
+  max-width:1200px;
+  margin:0 auto;
+}
+section.full-width { max-width:none; padding-left:0;padding-right:0; }
+
+.section-label {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--orange);
+  text-transform:uppercase;
+  letter-spacing:3px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.section-label::before {
+  content:'';
+  width:32px;height:1px;
+  background:var(--orange);
+}
+
+.section-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  letter-spacing:2px;
+  line-height:1;
+  color:var(--text);
+  margin-bottom:16px;
+}
+.section-title em {
+  color:var(--orange);
+  font-style:normal;
+}
+
+.section-body {
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.7;
+  max-width:560px;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height:1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 0 48px;
+}
+
+/* ── WHY SECTION ── */
+.why-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2px;
+  margin-top:60px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+}
+.why-card {
+  background:var(--card);
+  padding:40px;
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+  transition:background 0.2s;
+  position:relative;
+  overflow:hidden;
+}
+.why-card::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: linear-gradient(135deg, var(--orange-dim), transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.why-card:hover::after { opacity:1; }
+.why-card:hover { background: #131c24; }
+
+.why-icon {
+  width:52px;height:52px;
+  background:var(--orange-dim);
+  border:1px solid var(--border);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  flex-shrink:0;
+}
+.why-card h3 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:1px;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.why-card p {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+/* ── FEATURES BENTO ── */
+.bento {
+  display:grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap:16px;
+  margin-top:60px;
+}
+.bento-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:36px;
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.2s, border-color 0.2s;
+}
+.bento-card:hover {
+  transform:translateY(-3px);
+  border-color:rgba(255,122,30,0.35);
+}
+
+.bento-card.big { grid-column: 1; grid-row: 1/3; }
+.bento-card.tall { grid-row:span 2; }
+
+.bento-card .icon {
+  font-size:32px;
+  margin-bottom:20px;
+  display:block;
+}
+.bento-card h3 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;
+  letter-spacing:1px;
+  color:var(--text);
+  margin-bottom:10px;
+}
+.bento-card p {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+.bento-tag {
+  display:inline-block;
+  background:var(--green-dim);
+  color:var(--green);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:4px;
+  margin-top:16px;
+  letter-spacing:0.5px;
+}
+.bento-tag.orange {
+  background:var(--orange-dim);
+  color:var(--orange);
+}
+
+/* Radar visualizer inside bento */
+.radar-visual {
+  position:relative;
+  width:100%;
+  aspect-ratio:1;
+  max-width:200px;
+  margin:24px auto 0;
+}
+.radar-visual svg { width:100%;height:100%; }
+
+/* ── HOW IT WORKS ── */
+.steps {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  margin-top:60px;
+  position:relative;
+}
+.steps::before {
+  content:'';
+  position:absolute;
+  top:40px;
+  left:16.66%;
+  right:16.66%;
+  height:1px;
+  background: linear-gradient(to right, var(--border), var(--orange), var(--border));
+  z-index:0;
+}
+.step {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:36px 32px;
+  position:relative;
+  z-index:1;
+  transition:border-color 0.2s;
+}
+.step:hover { border-color:var(--orange); }
+.step-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:64px;
+  color:var(--orange-dim);
+  line-height:1;
+  position:absolute;
+  top:16px;right:24px;
+  user-select:none;
+}
+.step-icon {
+  width:64px;height:64px;
+  background:var(--orange-dim);
+  border:1px solid var(--border);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  margin-bottom:24px;
+}
+.step h3 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:24px;
+  letter-spacing:1px;
+  color:var(--text);
+  margin-bottom:10px;
+}
+.step p {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+/* ── MISSION STRIP ── */
+.mission-strip {
+  background: linear-gradient(135deg, #0e1a12, #0d1822);
+  border-top:1px solid rgba(0,229,160,0.12);
+  border-bottom:1px solid rgba(0,229,160,0.12);
+  padding:80px 48px;
+  text-align:center;
+}
+.mission-strip .quote {
+  font-family:'Bebas Neue',sans-serif;
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing:2px;
+  line-height:1.2;
+  color:var(--text);
+  max-width:800px;
+  margin:0 auto;
+}
+.mission-strip .quote em {
+  color:var(--green);
+  font-style:normal;
+}
+.mission-strip .attribution {
+  margin-top:20px;
+  font-size:13px;
+  color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:1px;
+}
+
+/* ── PRIVACY BADGE ── */
+.privacy-row {
+  display:flex;
+  gap:16px;
+  margin-top:60px;
+  flex-wrap:wrap;
+}
+.privacy-badge {
+  flex:1;
+  min-width:200px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:24px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+.privacy-badge .pbadge-icon {
+  font-size:24px;
+}
+.privacy-badge h4 {
+  font-size:14px;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:4px;
+}
+.privacy-badge p {
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* ── SUPPORT / CTA ── */
+.support-section {
+  text-align:center;
+  padding:80px 48px 120px;
+  max-width:700px;
+  margin:0 auto;
+}
+.support-section .upi-box {
+  display:inline-block;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 32px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:18px;
+  color:var(--orange);
+  margin:32px 0;
+  letter-spacing:1px;
+}
+.support-section p {
+  color:var(--muted);
+  line-height:1.7;
+  font-size:15px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  padding:40px 48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+}
+.footer-left {
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.footer-logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:2px;
+  color:var(--text);
+}
+.footer-tagline {
+  font-size:12px;
+  color:var(--muted);
+}
+.footer-links {
+  display:flex;
+  gap:24px;
+  list-style:none;
+  flex-wrap:wrap;
+}
+.footer-links a {
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+  transition:color 0.2s;
+}
+.footer-links a:hover { color:var(--orange); }
+.footer-copy {
+  font-size:12px;
+  color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* ── FLOATING HAZARD DOTS ── */
+.hazard-dot {
+  position:absolute;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--orange);
+  box-shadow:0 0 12px var(--orange-glow);
+  animation:hazardFloat 4s ease-in-out infinite;
+}
+@keyframes hazardFloat {
+  0%,100%{transform:translateY(0);opacity:0.7}
+  50%{transform:translateY(-12px);opacity:1}
+}
+
+/* ── SCROLLED REVEAL ── */
+.reveal {
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav { padding:16px 20px; }
+  .nav-links { display:none; }
+  section { padding:60px 20px; }
+  .why-grid { grid-template-columns:1fr; }
+  .bento { grid-template-columns:1fr; }
+  .bento-card.big { grid-row:auto; }
+  .steps { grid-template-columns:1fr; }
+  .steps::before { display:none; }
+  .hero-stats { gap:24px; }
+  footer { padding:32px 20px; flex-direction:column; align-items:flex-start; }
+  .mission-strip { padding:60px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">RP</div>
+    <span class="nav-logo-text">RoadPing</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#why">Why</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a class="nav-cta" href="mailto:support.roadping@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- Road SVG -->
+  <svg class="road-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ff7a1e" stop-opacity="0"/>
+        <stop offset="50%" stop-color="#ff7a1e" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#ff7a1e" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+    <!-- Road perspective lines -->
+    <line x1="720" y1="300" x2="0" y2="900" stroke="#ff7a1e" stroke-width="1" opacity="0.5"/>
+    <line x1="720" y1="300" x2="1440" y2="900" stroke="#ff7a1e" stroke-width="1" opacity="0.5"/>
+    <!-- Lane dashes -->
+    <line x1="720" y1="320" x2="720" y2="380" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="20,20" opacity="0.4"/>
+    <line x1="720" y1="400" x2="720" y2="460" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="20,20" opacity="0.3"/>
+    <line x1="720" y1="480" x2="720" y2="600" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="20,20" opacity="0.2"/>
+    <!-- Fill -->
+    <polygon points="720,300 0,900 1440,900" fill="url(#roadGrad)"/>
+    <!-- Grid lines -->
+    <line x1="360" y1="500" x2="0" y2="900" stroke="#ff7a1e" stroke-width="0.5" opacity="0.2"/>
+    <line x1="1080" y1="500" x2="1440" y2="900" stroke="#ff7a1e" stroke-width="0.5" opacity="0.2"/>
+    <!-- Pothole markers -->
+    <circle cx="200" cy="780" r="20" fill="none" stroke="#ff7a1e" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="200" cy="780" r="8" fill="#ff7a1e" opacity="0.3"/>
+    <circle cx="1100" cy="720" r="15" fill="none" stroke="#ff7a1e" stroke-width="1.5" opacity="0.4"/>
+    <circle cx="1100" cy="720" r="6" fill="#ff7a1e" opacity="0.25"/>
+    <!-- Speed breaker crosshatch -->
+    <rect x="580" y="810" width="280" height="12" rx="2" fill="#ff7a1e" opacity="0.15"/>
+    <rect x="590" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="622" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="654" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="686" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="718" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="750" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="782" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+    <rect x="814" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
+  </svg>
+
+  <!-- Radar rings -->
+  <div class="radar-container">
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+  </div>
+
+  <!-- Hazard floating dots -->
+  <div class="hazard-dot" style="left:18%;top:62%;animation-delay:0.5s;width:8px;height:8px;"></div>
+  <div class="hazard-dot" style="right:22%;top:70%;animation-delay:1.5s;width:6px;height:6px;"></div>
+  <div class="hazard-dot" style="left:38%;top:78%;animation-delay:2.2s;width:5px;height:5px;"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🛰 Sentinel EKF Radar Engine — Live</div>
+    <h1 class="hero-title">
+      Road<span>Ping</span>
+    </h1>
+    <p class="hero-tagline">
+      You Report. We Alert. A community-driven safety app that warns you of potholes, hazards, and speed breakers — <em>before you even see them.</em>
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://play.google.com/store" target="_blank">
+        ▶ &nbsp;Download App
+      </a>
+      <a class="btn-secondary" href="#why">
+        Learn More ↓
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">40M</div>
+        <div class="stat-label">Pre-Impact Alert</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">0ms</div>
+        <div class="stat-label">Radar Lag</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">0 Ads</div>
+        <div class="stat-label">Forever Free</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">BLR</div>
+        <div class="stat-label">Born In Bangalore</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<!-- ── WHY SECTION ── -->
+<div class="divider"></div>
+<section id="why">
+  <div class="section-label reveal">The Problem</div>
+  <h2 class="section-title reveal">The <em>Invisible</em> Hazard</h2>
+  <p class="section-body reveal">The road is used by everyone. The least we can do is look out for each other. Born from the chaotic roads of Bangalore, RoadPing eliminates surprises.</p>
+
+  <div class="why-grid reveal">
+    <div class="why-card">
+      <div class="why-icon">🌧️</div>
+      <div>
+        <h3>The Flooded Road</h3>
+        <p>When it rains, every puddle looks identical. RoadPing knows if that puddle is a shallow splash or a rim-breaking pit — because a fellow Pinger reported it earlier.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🚛</div>
+      <div>
+        <h3>The Traffic Shadow</h3>
+        <p>Stuck behind a truck? You can't see the road ahead. Our radar warns you 40 meters before a hazard — time to brake safely.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌙</div>
+      <div>
+        <h3>Night Driving</h3>
+        <p>Headlights only show so much. Our radar alerts you to deep potholes in the dark before your brain even registers the danger.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">❤️</div>
+      <div>
+        <h3>Protect What Matters</h3>
+        <p>Whether it's your parents driving home or a kid on a scooter, every report you make is a "heads-up" that could prevent a tragedy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<div class="divider"></div>
+<section id="features">
+  <div class="section-label reveal">Capabilities</div>
+  <h2 class="section-title reveal">Built For <em>Real Roads</em></h2>
+
+  <div class="bento reveal">
+
+    <!-- Big card: Radar -->
+    <div class="bento-card big">
+      <span class="icon">📡</span>
+      <h3>Sentinel EKF Radar Engine</h3>
+      <p>Industrial-grade hazard tracking using an Extended Kalman Filter — the same math used in aerospace navigation — adapted for road safety. Zero-lag hazard detection means the alert reaches you before your eyes do.</p>
+      <div class="bento-tag">Sub-second latency</div>
+
+      <!-- SVG radar visualizer -->
+      <div class="radar-visual">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="rg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff7a1e" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#ff7a1e" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="none" stroke="#ff7a1e" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#ff7a1e" stroke-width="0.5" opacity="0.25"/>
+          <circle cx="100" cy="100" r="50" fill="none" stroke="#ff7a1e" stroke-width="0.5" opacity="0.2"/>
+          <circle cx="100" cy="100" r="30" fill="none" stroke="#ff7a1e" stroke-width="0.5" opacity="0.15"/>
+          <line x1="100" y1="10" x2="100" y2="190" stroke="#ff7a1e" stroke-width="0.5" opacity="0.15"/>
+          <line x1="10" y1="100" x2="190" y2="100" stroke="#ff7a1e" stroke-width="0.5" opacity="0.15"/>
+          <circle cx="100" cy="100" r="6" fill="#ff7a1e"/>
+          <!-- Hazard blip -->
+          <circle cx="138" cy="72" r="5" fill="#ff4545">
+            <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="138" cy="72" r="12" fill="none" stroke="#ff4545" stroke-width="1">
+            <animate attributeName="r" values="5;18" dur="1.2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;0" dur="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Sweep line -->
+          <line x1="100" y1="100" x2="185" y2="60" stroke="#ff7a1e" stroke-width="1.5" opacity="0.7" stroke-linecap="round">
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="3s" repeatCount="indefinite"/>
+          </line>
+          <circle cx="100" cy="100" r="95" fill="url(#rg)">
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="3s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Background mode -->
+    <div class="bento-card">
+      <span class="icon">🔇</span>
+      <h3>Background Protection</h3>
+      <p>Runs silently while you use Google Maps or Waze. Voice alerts even when the screen is off.</p>
+      <div class="bento-tag orange">Always-on</div>
+    </div>
+
+    <!-- Community -->
+    <div class="bento-card">
+      <span class="icon">🌐</span>
+      <h3>Community Shield</h3>
+      <p>Single-tap reporting with photo evidence and GPS precision. Your alert reaches nearby drivers instantly.</p>
+      <div class="bento-tag">Real-time sync</div>
+    </div>
+
+    <!-- Jolt -->
+    <div class="bento-card">
+      <span class="icon">⚡</span>
+      <h3>Jolt Detection</h3>
+      <p>Accelerometer-based "jerk detection" auto-suggests a report when your phone senses a hard impact.</p>
+      <div class="bento-tag orange">AI-powered</div>
+    </div>
+
+    <!-- Privacy -->
+    <div class="bento-card">
+      <span class="icon">🔒</span>
+      <h3>Zero Data Collection</h3>
+      <p>No ads. No data selling. Your real-time location is never stored — only the hazards you report.</p>
+      <div class="bento-tag">Forever free</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── MISSION STRIP ── -->
+<div class="mission-strip">
+  <div class="quote">
+    "The road is used by <em>everyone</em>. The least we can do is <em>look out</em> for each other."
+  </div>
+  <div class="attribution">— Made with ❤️ in Bangalore, India</div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="section-label reveal">Get Started</div>
+  <h2 class="section-title reveal">Up & Running in <em>60 Seconds</em></h2>
+
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">🔑</div>
+      <h3>Sign In</h3>
+      <p>Secure Google Auth login. Grant "Always Allow" location access — required for background radar alerts while you use other apps.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">📡</div>
+      <h3>Start Radar</h3>
+      <p>Tap "Start Radar" and minimize the app. RoadPing silently monitors your path. You'll hear: <em>"Caution: Pothole 50 meters ahead."</em></p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">🔶</div>
+      <h3>Report a Hazard</h3>
+      <p>Spot something new? Hit the large orange Report Button. Optional photo. The hazard is instantly synced to all nearby drivers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRIVACY ── -->
+<div class="divider"></div>
+<section id="privacy">
+  <div class="section-label reveal">Trust & Safety</div>
+  <h2 class="section-title reveal">Your Data, <em>Your Rules</em></h2>
+
+  <div class="privacy-row reveal">
+    <div class="privacy-badge">
+      <div class="pbadge-icon">🚫</div>
+      <div>
+        <h4>Zero Ads</h4>
+        <p>We have no advertising partners. No banners, no tracking pixels, no promoted content — ever.</p>
+      </div>
+    </div>
+    <div class="privacy-badge">
+      <div class="pbadge-icon">📍</div>
+      <div>
+        <h4>Location Never Stored</h4>
+        <p>Your real-time position is processed on-device only. We store hazard coordinates, not your route.</p>
+      </div>
+    </div>
+    <div class="privacy-badge">
+      <div class="pbadge-icon">💰</div>
+      <div>
+        <h4>Data Never Sold</h4>
+        <p>This is a solo-developer public-safety project. We have zero revenue and zero advertisers.</p>
+      </div>
+    </div>
+    <div class="privacy-badge">
+      <div class="pbadge-icon">🔐</div>
+      <div>
+        <h4>Secure Auth</h4>
+        <p>Google OAuth login only. We never see or store your password, and access tokens are encrypted.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;">
+    <a href="privacy.html" class="btn-secondary" style="font-size:14px;padding:10px 20px;">Privacy Policy →</a>
+    <a href="terms.html"   class="btn-secondary" style="font-size:14px;padding:10px 20px;">Terms of Service →</a>
+  </div>
+</section>
+
+<!-- ── SUPPORT ── -->
+<div class="divider"></div>
+<div class="support-section reveal">
+  <div class="section-label" style="justify-content:center;">☕ Support</div>
+  <h2 class="section-title" style="font-size:clamp(36px,5vw,60px);">Buy Us a <em>Chai</em></h2>
+  <p>RoadPing is a solo-developer project with <strong>zero revenue</strong> and <strong>zero ads</strong>. If we saved your tires (or your life), consider keeping the servers running.</p>
+  <div class="upi-box">UPI: semibit@idfcbank</div>
+  <div style="margin-top:8px;">
+    <a href="mailto:support.roadping@gmail.com" class="btn-secondary" style="font-size:14px;padding:10px 20px;display:inline-flex;">✉ support.roadping@gmail.com</a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">RoadPing</div>
+    <div class="footer-tagline">You Report. We Alert. · Made in Bangalore 🇮🇳</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="mailto:support.roadping@gmail.com">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 RoadPing</div>
+</footer>
+
+<script>
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
