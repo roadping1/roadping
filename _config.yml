@@ -1,5 +1,6 @@
-title: RoadPing Legal
-description: Official Privacy Policy and Terms of Service for the RoadPing App.
-theme: jekyll-theme-cayman
+title: RoadPing
+description: Real-time road hazard alerts and automated pothole detection.
+theme: jekyll-theme-minimal
+logo: /logo.png
 show_downloads: false
 google_analytics: G-34TV0CPWL1
