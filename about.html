@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About — RoadPing</title>
+<link rel="stylesheet" href="roadping.css"/>
+<style>
+/* About-specific extras */
+.origin-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:24px;
+}
+.origin-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px;
+  transition:border-color 0.2s;
+}
+.origin-card:hover{border-color:rgba(255,122,30,0.35);}
+.origin-card .oc-icon{font-size:28px;margin-bottom:12px;display:block;}
+.origin-card h3 {
+  font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;
+  color:var(--text);margin-bottom:8px;
+}
+.origin-card p{color:var(--muted);font-size:14px;line-height:1.65;}
+
+.tech-stack {
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;
+}
+.tech-pill {
+  background:var(--orange-dim);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:6px 14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--orange);
+  letter-spacing:0.5px;
+}
+.tech-pill.green{background:var(--green-dim);color:var(--green);border-color:rgba(0,229,160,0.15);}
+
+.mission-quote {
+  background: linear-gradient(135deg, rgba(255,122,30,0.06), rgba(0,229,160,0.04));
+  border:1px solid var(--border);
+  border-left:3px solid var(--orange);
+  border-radius:12px;
+  padding:32px;
+  margin:40px 0;
+  text-align:center;
+}
+.mission-quote blockquote {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(22px,3vw,34px);
+  letter-spacing:1.5px;
+  line-height:1.2;
+  color:var(--text);
+}
+.mission-quote blockquote em{color:var(--orange);font-style:normal;}
+.mission-quote cite{
+  display:block;margin-top:12px;
+  font-size:12px;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:1px;
+}
+
+.timeline {
+  position:relative;
+  padding-left:28px;
+  margin-top:20px;
+}
+.timeline::before {
+  content:'';
+  position:absolute;left:0;top:8px;bottom:8px;
+  width:1px;background: linear-gradient(to bottom, var(--orange), transparent);
+}
+.timeline-item {
+  position:relative;
+  padding-bottom:32px;
+}
+.timeline-item::before {
+  content:'';
+  position:absolute;left:-32px;top:6px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--orange);
+  box-shadow:0 0 10px var(--orange-glow);
+}
+.timeline-item .tl-label {
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--orange);letter-spacing:1px;margin-bottom:4px;
+}
+.timeline-item h4 {
+  font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;
+}
+.timeline-item p{color:var(--muted);font-size:14px;line-height:1.6;}
+
+@media(max-width:600px){.origin-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-icon">RP</div>
+    <span class="nav-logo-text">RoadPing</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a class="nav-cta" href="mailto:support.roadping@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="label">The Story</div>
+  <h1>Born in <em>Bangalore</em>,<br/>Built for the World</h1>
+  <p class="subtitle">A solo developer. Chaotic roads. A vision for a safer commute for every driver, everywhere.</p>
+</div>
+
+<div class="page-content">
+
+  <div class="section-block">
+    <span class="sec-num">The Origin</span>
+    <h2>Why RoadPing Exists</h2>
+    <p>Bangalore's roads are legendary — not for their smoothness, but for the army of potholes, surprise speed breakers, and flooded craters that appear overnight. After one too many rim-bending encounters, the question became obvious: <strong>why can't drivers warn each other?</strong></p>
+    <p>RoadPing was built to answer that question. Not as a commercial product, not as a startup pitch — but as a genuine solution to a real problem faced by millions of daily commuters.</p>
+
+    <div class="origin-grid">
+      <div class="origin-card">
+        <span class="oc-icon">🕳️</span>
+        <h3>The Problem</h3>
+        <p>Potholes, flooded roads, and unmarked speed breakers cause thousands of accidents and crores in vehicle damage every year across Indian cities alone.</p>
+      </div>
+      <div class="origin-card">
+        <span class="oc-icon">💡</span>
+        <h3>The Insight</h3>
+        <p>Drivers who've already hit a hazard are the best early-warning system. All they need is a simple way to share that information with drivers 30 seconds behind them.</p>
+      </div>
+      <div class="origin-card">
+        <span class="oc-icon">🛰️</span>
+        <h3>The Technology</h3>
+        <p>A radar engine using Extended Kalman Filter mathematics — the same algorithm used in aerospace — adapted to predict when a driver is approaching a reported hazard.</p>
+      </div>
+      <div class="origin-card">
+        <span class="oc-icon">🤝</span>
+        <h3>The Mission</h3>
+        <p>Build a community where every driver looks out for the next one. No ads, no data selling, no venture capital — just people helping people stay safe.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mission-quote">
+    <blockquote>"The road is used by <em>everyone</em>.<br/>The least we can do is <em>look out</em> for each other."</blockquote>
+    <cite>— The RoadPing Manifesto</cite>
+  </div>
+
+  <div class="section-block">
+    <span class="sec-num">The Engine</span>
+    <h2>Sentinel Radar — How It Works</h2>
+    <p>Most hazard apps simply show you a map dot. RoadPing is different — it actively calculates when you are going to arrive at a hazard and fires a voice alert at exactly the right moment.</p>
+
+    <p>The <strong>Sentinel EKF Radar Engine</strong> uses GPS fusion and an Extended Kalman Filter to continuously estimate your position, velocity, and heading. When a reported hazard enters your predicted path, the engine calculates time-to-impact and triggers an alert when you are approximately 40 metres away — enough time to brake comfortably at typical city speeds.</p>
+
+    <ul>
+      <li><strong>Audio First:</strong> Alerts play over your music or navigation so you never have to look at the screen</li>
+      <li><strong>Background Active:</strong> Works while your phone is in your pocket or running Google Maps or Waze</li>
+      <li><strong>Precision Timing:</strong> Tuned to trigger exactly when you need to slow down — not too early, not too late</li>
+      <li><strong>Jolt Detection:</strong> Accelerometer monitoring auto-suggests a report when a hard impact is detected</li>
+    </ul>
+
+    <div class="tech-stack">
+      <span class="tech-pill">Extended Kalman Filter</span>
+      <span class="tech-pill">GPS Fusion</span>
+      <span class="tech-pill">Background Services</span>
+      <span class="tech-pill green">Real-time Sync</span>
+      <span class="tech-pill green">Voice Alerts</span>
+      <span class="tech-pill green">Crowd-sourced Data</span>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <span class="sec-num">The Commitment</span>
+    <h2>Forever Free. Zero Ads. Zero Compromise.</h2>
+    <p>RoadPing is a solo-developer project built on the belief that road safety should not be paywalled or ad-supported. Here is our permanent commitment to users:</p>
+    <ul>
+      <li>The core app will always be free to download and use</li>
+      <li>We will never sell advertising space within the app</li>
+      <li>We will never sell your personal data or location history to any third party</li>
+      <li>Your real-time location is processed on-device only and never stored on our servers</li>
+    </ul>
+    <p>If you find value in RoadPing, the only thing we ask is an occasional chai ☕ via UPI to keep the servers running: <strong>semibit@idfcbank</strong></p>
+  </div>
+
+  <div class="section-block">
+    <span class="sec-num">Get In Touch</span>
+    <h2>Say Hello</h2>
+    <p>Questions, suggestions, bug reports, or just want to share how RoadPing helped you? We'd love to hear from you.</p>
+    <p>📧 &nbsp;<a class="contact-link" href="mailto:support.roadping@gmail.com">support.roadping@gmail.com</a></p>
+    <p style="margin-top:20px;">
+      <a href="privacy.html" style="color:var(--orange);text-decoration:none;margin-right:24px;font-size:14px;">Privacy Policy →</a>
+      <a href="terms.html" style="color:var(--orange);text-decoration:none;font-size:14px;">Terms of Service →</a>
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">RoadPing</div>
+    <div class="footer-tagline">Made with ❤️ in Bangalore 🇮🇳</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="mailto:support.roadping@gmail.com">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 RoadPing</div>
+</footer>
+
+</body>
+</html>
