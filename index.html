@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>RoadPing — You Report. We Alert.</title>
+<title>RoadPing — Safe Road Ahead</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -61,15 +61,8 @@ nav {
   gap:12px;
   text-decoration:none;
 }
-.nav-logo-icon {
-  width:36px;height:36px;
-  background: var(--orange);
-  border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:20px;
-  color:#000;
-  letter-spacing:0;
+.nav-logo-img {
+  height:36px;
 }
 .nav-logo-text {
   font-family:'Bebas Neue',sans-serif;
@@ -247,31 +240,6 @@ nav {
 }
 .btn-secondary:hover { border-color:var(--orange); color:var(--orange); }
 
-.hero-stats {
-  display:flex;
-  gap:48px;
-  justify-content:center;
-  margin-top:64px;
-  animation: fadeUp 0.8s 0.6s ease both;
-}
-.stat {
-  text-align:center;
-}
-.stat-number {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:40px;
-  color:var(--orange);
-  letter-spacing:2px;
-  line-height:1;
-}
-.stat-label {
-  font-size:12px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:1px;
-  margin-top:4px;
-}
-
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(24px); }
   to   { opacity:1; transform:translateY(0); }
@@ -390,13 +358,12 @@ section.full-width { max-width:none; padding-left:0;padding-right:0; }
 .why-card:hover::after { opacity:1; }
 .why-card:hover { background: #131c24; }
 
-.why-icon {
-  width:52px;height:52px;
-  background:var(--orange-dim);
+.why-img {
+  width:120px;
+  height:80px;
+  object-fit: cover;
+  border-radius:8px;
   border:1px solid var(--border);
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:24px;
   flex-shrink:0;
 }
 .why-card h3 {
@@ -705,7 +672,6 @@ footer {
   .bento-card.big { grid-row:auto; }
   .steps { grid-template-columns:1fr; }
   .steps::before { display:none; }
-  .hero-stats { gap:24px; }
   footer { padding:32px 20px; flex-direction:column; align-items:flex-start; }
   .mission-strip { padding:60px 20px; }
 }
@@ -716,7 +682,7 @@ footer {
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <div class="nav-logo-icon">RP</div>
+    <img src="logo.png" alt="RoadPing Logo" class="nav-logo-img">
     <span class="nav-logo-text">RoadPing</span>
   </a>
   <ul class="nav-links">
@@ -740,33 +706,19 @@ footer {
         <stop offset="100%" stop-color="#ff7a1e" stop-opacity="0.05"/>
       </linearGradient>
     </defs>
-    <!-- Road perspective lines -->
     <line x1="720" y1="300" x2="0" y2="900" stroke="#ff7a1e" stroke-width="1" opacity="0.5"/>
     <line x1="720" y1="300" x2="1440" y2="900" stroke="#ff7a1e" stroke-width="1" opacity="0.5"/>
-    <!-- Lane dashes -->
     <line x1="720" y1="320" x2="720" y2="380" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="20,20" opacity="0.4"/>
     <line x1="720" y1="400" x2="720" y2="460" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="20,20" opacity="0.3"/>
     <line x1="720" y1="480" x2="720" y2="600" stroke="#ff7a1e" stroke-width="2" stroke-dasharray="20,20" opacity="0.2"/>
-    <!-- Fill -->
     <polygon points="720,300 0,900 1440,900" fill="url(#roadGrad)"/>
-    <!-- Grid lines -->
     <line x1="360" y1="500" x2="0" y2="900" stroke="#ff7a1e" stroke-width="0.5" opacity="0.2"/>
     <line x1="1080" y1="500" x2="1440" y2="900" stroke="#ff7a1e" stroke-width="0.5" opacity="0.2"/>
-    <!-- Pothole markers -->
     <circle cx="200" cy="780" r="20" fill="none" stroke="#ff7a1e" stroke-width="1.5" opacity="0.5"/>
     <circle cx="200" cy="780" r="8" fill="#ff7a1e" opacity="0.3"/>
     <circle cx="1100" cy="720" r="15" fill="none" stroke="#ff7a1e" stroke-width="1.5" opacity="0.4"/>
     <circle cx="1100" cy="720" r="6" fill="#ff7a1e" opacity="0.25"/>
-    <!-- Speed breaker crosshatch -->
     <rect x="580" y="810" width="280" height="12" rx="2" fill="#ff7a1e" opacity="0.15"/>
-    <rect x="590" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="622" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="654" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="686" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="718" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="750" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="782" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
-    <rect x="814" y="810" width="20" height="12" rx="2" fill="#ff7a1e" opacity="0.25"/>
   </svg>
 
   <!-- Radar rings -->
@@ -777,18 +729,13 @@ footer {
     <div class="radar-ring"></div>
   </div>
 
-  <!-- Hazard floating dots -->
-  <div class="hazard-dot" style="left:18%;top:62%;animation-delay:0.5s;width:8px;height:8px;"></div>
-  <div class="hazard-dot" style="right:22%;top:70%;animation-delay:1.5s;width:6px;height:6px;"></div>
-  <div class="hazard-dot" style="left:38%;top:78%;animation-delay:2.2s;width:5px;height:5px;"></div>
-
   <div class="hero-content">
-    <div class="hero-badge">🛰 Sentinel EKF Radar Engine — Live</div>
+    <div class="hero-badge">🛰 Hazard Alerts — Live</div>
     <h1 class="hero-title">
       Road<span>Ping</span>
     </h1>
     <p class="hero-tagline">
-      You Report. We Alert. A community-driven safety app that warns you of potholes, hazards, and speed breakers — <em>before you even see them.</em>
+      Safe Road Ahead. A community-driven safety app that warns you of potholes, hazards, and speed breakers — <em>before you even see them.</em>
     </p>
     <div class="hero-actions">
       <a class="btn-primary" href="https://play.google.com/store" target="_blank">
@@ -797,24 +744,6 @@ footer {
       <a class="btn-secondary" href="#why">
         Learn More ↓
       </a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-number">40M</div>
-        <div class="stat-label">Pre-Impact Alert</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">0ms</div>
-        <div class="stat-label">Radar Lag</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">0 Ads</div>
-        <div class="stat-label">Forever Free</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">BLR</div>
-        <div class="stat-label">Born In Bangalore</div>
-      </div>
     </div>
   </div>
 
@@ -829,32 +758,32 @@ footer {
 <section id="why">
   <div class="section-label reveal">The Problem</div>
   <h2 class="section-title reveal">The <em>Invisible</em> Hazard</h2>
-  <p class="section-body reveal">The road is used by everyone. The least we can do is look out for each other. Born from the chaotic roads of Bangalore, RoadPing eliminates surprises.</p>
+  <p class="section-body reveal">The road is used by everyone. The least we can do is look out for each other. RoadPing eliminates surprises on your journey.</p>
 
   <div class="why-grid reveal">
     <div class="why-card">
-      <div class="why-icon">🌧️</div>
+      <img src="https://github.com/user-attachments/assets/73164572-cd05-4969-b450-276ca55fd9ec" alt="Flooded Road" class="why-img">
       <div>
         <h3>The Flooded Road</h3>
         <p>When it rains, every puddle looks identical. RoadPing knows if that puddle is a shallow splash or a rim-breaking pit — because a fellow Pinger reported it earlier.</p>
       </div>
     </div>
     <div class="why-card">
-      <div class="why-icon">🚛</div>
+      <img src="https://github.com/user-attachments/assets/ea3d9e74-7cef-4da2-a83f-3fc07452250e" alt="Traffic Shadow" class="why-img">
       <div>
         <h3>The Traffic Shadow</h3>
-        <p>Stuck behind a truck? You can't see the road ahead. Our radar warns you 40 meters before a hazard — time to brake safely.</p>
+        <p>Stuck behind a truck? You can't see the road ahead. Our alerts warn you before a hazard — giving you time to brake safely.</p>
       </div>
     </div>
     <div class="why-card">
-      <div class="why-icon">🌙</div>
+      <img src="https://github.com/user-attachments/assets/80066a20-dd69-4808-a36a-fb15a0616335" alt="Night Driving" class="why-img">
       <div>
         <h3>Night Driving</h3>
-        <p>Headlights only show so much. Our radar alerts you to deep potholes in the dark before your brain even registers the danger.</p>
+        <p>Headlights only show so much. Our app alerts you to deep potholes in the dark before your brain even registers the danger.</p>
       </div>
     </div>
     <div class="why-card">
-      <div class="why-icon">❤️</div>
+      <img src="https://github.com/user-attachments/assets/83148f39-c6ec-4f1f-b836-2f8c580d6e5c" alt="Protect What Matters" class="why-img">
       <div>
         <h3>Protect What Matters</h3>
         <p>Whether it's your parents driving home or a kid on a scooter, every report you make is a "heads-up" that could prevent a tragedy.</p>
@@ -874,9 +803,9 @@ footer {
     <!-- Big card: Radar -->
     <div class="bento-card big">
       <span class="icon">📡</span>
-      <h3>Sentinel EKF Radar Engine</h3>
-      <p>Industrial-grade hazard tracking using an Extended Kalman Filter — the same math used in aerospace navigation — adapted for road safety. Zero-lag hazard detection means the alert reaches you before your eyes do.</p>
-      <div class="bento-tag">Sub-second latency</div>
+      <h3>Precision Hazard Tracking</h3>
+      <p>Advanced hazard tracking adapted for road safety. Real-time detection means the alert reaches you before your eyes do.</p>
+      <div class="bento-tag">Instant Alerts</div>
 
       <!-- SVG radar visualizer -->
       <div class="radar-visual">
@@ -917,7 +846,7 @@ footer {
     <div class="bento-card">
       <span class="icon">🔇</span>
       <h3>Background Protection</h3>
-      <p>Runs silently while you use Google Maps or Waze. Voice alerts even when the screen is off.</p>
+      <p>Runs silently while you use navigation apps. Voice alerts even when the screen is off.</p>
       <div class="bento-tag orange">Always-on</div>
     </div>
 
@@ -933,138 +862,111 @@ footer {
     <div class="bento-card">
       <span class="icon">⚡</span>
       <h3>Jolt Detection</h3>
-      <p>Accelerometer-based "jerk detection" auto-suggests a report when your phone senses a hard impact.</p>
-      <div class="bento-tag orange">AI-powered</div>
+      <p>Automated "Jerk Detection" that suggests reporting when your phone's accelerometer detects a hard impact.</p>
+      <div class="bento-tag orange">Smart Sensors</div>
     </div>
 
     <!-- Privacy -->
     <div class="bento-card">
-      <span class="icon">🔒</span>
-      <h3>Zero Data Collection</h3>
+      <span class="icon">🛡️</span>
+      <h3>Privacy First</h3>
       <p>No ads. No data selling. Your real-time location is never stored — only the hazards you report.</p>
-      <div class="bento-tag">Forever free</div>
+      <div class="bento-tag">Encrypted</div>
     </div>
 
   </div>
 </section>
 
-<!-- ── MISSION STRIP ── -->
-<div class="mission-strip">
-  <div class="quote">
-    "The road is used by <em>everyone</em>. The least we can do is <em>look out</em> for each other."
-  </div>
-  <div class="attribution">— Made with ❤️ in Bangalore, India</div>
-</div>
-
 <!-- ── HOW IT WORKS ── -->
+<div class="divider"></div>
 <section id="how">
-  <div class="section-label reveal">Get Started</div>
-  <h2 class="section-title reveal">Up & Running in <em>60 Seconds</em></h2>
+  <div class="section-label reveal">The Process</div>
+  <h2 class="section-title reveal">How <em>RoadPing</em> Works</h2>
 
   <div class="steps reveal">
     <div class="step">
       <div class="step-num">01</div>
-      <div class="step-icon">🔑</div>
-      <h3>Sign In</h3>
-      <p>Secure Google Auth login. Grant "Always Allow" location access — required for background radar alerts while you use other apps.</p>
+      <div class="step-icon">⚙️</div>
+      <h3>Setup</h3>
+      <p>Download the app and grant location permissions so we can warn you in the background.</p>
     </div>
     <div class="step">
       <div class="step-num">02</div>
-      <div class="step-icon">📡</div>
-      <h3>Start Radar</h3>
-      <p>Tap "Start Radar" and minimize the app. RoadPing silently monitors your path. You'll hear: <em>"Caution: Pothole 50 meters ahead."</em></p>
+      <div class="step-icon">🚗</div>
+      <h3>Drive</h3>
+      <p>Start the app and drive. RoadPing monitors your path and provides voice alerts for hazards ahead.</p>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <div class="step-icon">🔶</div>
-      <h3>Report a Hazard</h3>
-      <p>Spot something new? Hit the large orange Report Button. Optional photo. The hazard is instantly synced to all nearby drivers.</p>
+      <div class="step-icon">📢</div>
+      <h3>Report</h3>
+      <p>See a new hazard? One tap reports it for everyone else. Together, we make roads safer.</p>
     </div>
   </div>
 </section>
 
-<!-- ── PRIVACY ── -->
-<div class="divider"></div>
-<section id="privacy">
-  <div class="section-label reveal">Trust & Safety</div>
-  <h2 class="section-title reveal">Your Data, <em>Your Rules</em></h2>
-
-  <div class="privacy-row reveal">
-    <div class="privacy-badge">
-      <div class="pbadge-icon">🚫</div>
-      <div>
-        <h4>Zero Ads</h4>
-        <p>We have no advertising partners. No banners, no tracking pixels, no promoted content — ever.</p>
-      </div>
+<!-- ── MISSION STRIP ── -->
+<section class="full-width">
+  <div class="mission-strip">
+    <div class="quote reveal">
+      "The road is used by everyone. The least we can do is <em>look out for each other.</em>"
     </div>
-    <div class="privacy-badge">
-      <div class="pbadge-icon">📍</div>
-      <div>
-        <h4>Location Never Stored</h4>
-        <p>Your real-time position is processed on-device only. We store hazard coordinates, not your route.</p>
-      </div>
-    </div>
-    <div class="privacy-badge">
-      <div class="pbadge-icon">💰</div>
-      <div>
-        <h4>Data Never Sold</h4>
-        <p>This is a solo-developer public-safety project. We have zero revenue and zero advertisers.</p>
-      </div>
-    </div>
-    <div class="privacy-badge">
-      <div class="pbadge-icon">🔐</div>
-      <div>
-        <h4>Secure Auth</h4>
-        <p>Google OAuth login only. We never see or store your password, and access tokens are encrypted.</p>
-      </div>
-    </div>
-  </div>
-
-  <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;">
-    <a href="privacy.html" class="btn-secondary" style="font-size:14px;padding:10px 20px;">Privacy Policy →</a>
-    <a href="terms.html"   class="btn-secondary" style="font-size:14px;padding:10px 20px;">Terms of Service →</a>
+    <div class="attribution reveal">— RoadPing Mission</div>
   </div>
 </section>
 
 <!-- ── SUPPORT ── -->
 <div class="divider"></div>
-<div class="support-section reveal">
-  <div class="section-label" style="justify-content:center;">☕ Support</div>
-  <h2 class="section-title" style="font-size:clamp(36px,5vw,60px);">Buy Us a <em>Chai</em></h2>
-  <p>RoadPing is a solo-developer project with <strong>zero revenue</strong> and <strong>zero ads</strong>. If we saved your tires (or your life), consider keeping the servers running.</p>
-  <div class="upi-box">UPI: semibit@idfcbank</div>
-  <div style="margin-top:8px;">
-    <a href="mailto:support.roadping@gmail.com" class="btn-secondary" style="font-size:14px;padding:10px 20px;display:inline-flex;">✉ support.roadping@gmail.com</a>
+<section class="support-section reveal">
+  <div class="section-label" style="justify-content:center">Support</div>
+  <h2 class="section-title">Keep the <em>Servers</em> Running</h2>
+  <p>RoadPing is a solo-developer project with zero ads. If it saved your tires, consider buying us a chai.</p>
+  <div class="upi-box">semibit@idfcbank</div>
+  <div class="privacy-row">
+    <div class="privacy-badge">
+      <div class="pbadge-icon">🔒</div>
+      <div>
+        <h4>No Data Selling</h4>
+        <p>Your journey is your own.</p>
+      </div>
+    </div>
+    <div class="privacy-badge">
+      <div class="pbadge-icon">🚫</div>
+      <div>
+        <h4>No Advertisements</h4>
+        <p>Pure safety, no clutter.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-left">
-    <div class="footer-logo">RoadPing</div>
-    <div class="footer-tagline">You Report. We Alert. · Made in Bangalore 🇮🇳</div>
+    <span class="footer-logo">RoadPing</span>
+    <span class="footer-tagline">Safe Road Ahead.</span>
   </div>
   <ul class="footer-links">
-    <li><a href="about.html">About</a></li>
     <li><a href="privacy.html">Privacy</a></li>
     <li><a href="terms.html">Terms</a></li>
-    <li><a href="mailto:support.roadping@gmail.com">Contact</a></li>
+    <li><a href="mailto:support.roadping@gmail.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 RoadPing</div>
+  <div class="footer-copy">© 2024 RoadPing</div>
 </footer>
 
 <script>
-// Scroll reveal
-const revealEls = document.querySelectorAll('.reveal');
+// Scroll Reveal
+const observerOptions = { threshold: 0.1 };
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
     }
   });
-}, { threshold: 0.12 });
-revealEls.forEach(el => observer.observe(el));
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
+
 </body>
 </html>
