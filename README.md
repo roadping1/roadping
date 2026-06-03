@@ -9,6 +9,8 @@
 **RoadPing** is an community-driven road safety application designed to eliminate the "invisible hazards" of driving. Born from the chaotic roads of Bangalore, it uses a real-time **Sentinel EKF Radar Engine** to provide sub-second audio and visual alerts for potholes, road hazards, and speed breakers before you even see them.
 
 ---
+
+Want to try when we roll out?  fill https://forms.gle/T8dunjD1fRFLLV266
                                                                                                                                                                                                                                                
                                                                                                                                                                                                                                                 
 ## 💡 The "Why" Behind RoadPing
