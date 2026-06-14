@@ -79,5 +79,5 @@ RoadPing is a solo-developer project maintained for public safety. We have **zer
 
 
 
----
+-------
 *Made with ❤️ in Bangalore, India.*
