@@ -813,6 +813,34 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
+    /* ── DEMO VIDEO SECTION ── */
+    .demo-section {
+      text-align: center;
+    }
+
+    .youtube-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      background: #ff0000;
+      border-radius: 12px;
+      transition: all 0.3s;
+      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.3);
+      text-decoration: none;
+    }
+
+    .youtube-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 36px rgba(255, 0, 0, 0.5);
+    }
+
+    .youtube-button svg {
+      width: 48px;
+      height: 48px;
+    }
+
     /* ── FLOATING HAZARD DOTS ── */
     .hazard-dot {
       position: absolute;
@@ -893,6 +921,16 @@
       .mission-strip {
         padding: 60px 20px;
       }
+
+      .youtube-button {
+        width: 56px;
+        height: 56px;
+      }
+
+      .youtube-button svg {
+        width: 40px;
+        height: 40px;
+      }
     }
   </style>
 </head>
@@ -964,7 +1002,7 @@
       </p>
       <div class="hero-actions">
         <a class="btn-primary" href="roadping.apk" download>
-          ▶ &nbsp;Download Android App 
+          ▶ &nbsp;Download Android App
         </a>
         <a class="btn-secondary" href="#why">
           Learn More ↓
@@ -1141,6 +1179,21 @@
         <p>See a new hazard? One tap reports it for everyone else. Together, we make roads safer.</p>
       </div>
     </div>
+  </section>
+
+  <!-- ── DEMO VIDEO ── -->
+  <div class="divider"></div>
+  <section id="demo" class="demo-section reveal">
+    <div class="section-label">See It In Action</div>
+    <h2 class="section-title">Watch <em>RoadPing</em> Demo</h2>
+    <a href="https://www.youtube.com/watch?v=9oNcuYqGNoI" target="_blank" class="youtube-button">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="#ff0000" />
+        <path d="M20 16L32 24L20 32V16Z" fill="white" />
+      </svg>
+    </a>
+    <p class="section-body" style="text-align: center; margin: 24px auto 0;">Experience how RoadPing works in real-time
+      and discover how it keeps you safe on every journey.</p>
   </section>
 
   <!-- ── MISSION STRIP ── -->
